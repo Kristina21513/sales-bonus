@@ -6,13 +6,13 @@
  */
 function calculateSimpleRevenue(purchase, _product) {
     // Находим соответствующий товар в чеке по SKU
-        if (!purchase?.items || !product) return 0;
+        if (!purchase?.items || !_product) return 0;
         
         const item = purchase.items.find(i => i.sku === _product.sku);
         if (!item) return 0;
     
         const discountedPrice = item.sale_price * (1 - (item.discount || 0) / 100);
-        const profit = (discountedPrice - product.purchase_price) * item.quantity;
+        const profit = (discountedPrice - _product.purchase_price) * item.quantity;
         
         return +profit.toFixed(2);
     }
