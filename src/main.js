@@ -7,9 +7,9 @@
 function calculateSimpleRevenue(purchase, _product) {
     if (!purchase || !_product) return 0;
     
-    // Расчет выручки без учета себестоимости (как требуется в тестах)
-    const revenue = purchase.sale_price * purchase.quantity * (1 - (purchase.discount || 0) / 100);
-    return +revenue.toFixed(2);
+    // Расчет выручки без учета себестоимости 
+    const revenue = purchase.sale_price * purchase.quantity * (1 - ((purchase.discount || 0) / 100));
+    return revenue;
     }
 
 
@@ -25,12 +25,12 @@ function calculateBonusByProfit(index, total, seller) {
         // Рассчитываем общую прибыль продавца
         if (!seller || typeof seller.totalProfit !== 'number') return 0;
     
-    const profit = seller.totalProfit;
+        const profit = seller.totalProfit;
     
-    if (index === 0) return +(profit * 0.15).toFixed(2);
-    if (index === 1 || index === 2) return +(profit * 0.10).toFixed(2);
+    if (index === 0) return profit * 0.15;
+    if (index === 1 || index === 2) return profit * 0.10;
     if (index === total - 1) return 0;
-    return +(profit * 0.05).toFixed(2);
+    return profit * 0.05;
         }
    
    
@@ -116,7 +116,7 @@ function analyzeSalesData(data, options) {
             profit: +seller.totalProfit.toFixed(2),
             revenue: +seller.totalRevenue.toFixed(2),
             sales_count: seller.salesCount,
-            bonus: calculateBonus(sellerStats.indexOf(seller), sellerStats.length, seller),
+            bonus: +calculateBonus(sellerStats.indexOf(seller), sellerStats.length, seller).toFixed(2),
             top_products: topProducts
         };
     });
