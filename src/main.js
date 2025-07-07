@@ -8,8 +8,7 @@ function calculateSimpleRevenue(purchase, _product) {
     if (!purchase || !_product) return 0;
     
     // Расчет выручки без учета себестоимости 
-    const revenue = purchase.sale_price * purchase.quantity * (1 - ((purchase.discount || 0) / 100));
-    return revenue;
+    return revenue = purchase.sale_price * purchase.quantity * (1 - ((purchase.discount || 0) / 100));
     }
 
 
@@ -25,12 +24,13 @@ function calculateBonusByProfit(index, total, seller) {
         // Рассчитываем общую прибыль продавца
         if (!seller || typeof seller.totalProfit !== 'number') return 0;
     
-        const profit = seller.totalProfit;
+        const profit = seller.profit || seller.totalProfit;
+        
     
-    if (index === 0) return profit * 0.15;
-    if (index === 1 || index === 2) return profit * 0.10;
-    if (index === total - 1) return 0;
-    return profit * 0.05;
+            if (index === 0) return profit * 0.15;
+            if (index === 1 || index === 2) return profit * 0.10;
+            if (index === total - 1) return 0;
+            return profit * 0.05;
         }
    
    
@@ -73,6 +73,7 @@ function analyzeSalesData(data, options) {
     data.purchase_records.forEach(purchase => {
         const sellerStat = sellerStats.find(s => s.sellerId === purchase.seller_id);
         if (!sellerStat) return;
+        sellerStat.totalRevenue += purchase.total_amount;
 
         sellerStat.salesCount += 1;
 
@@ -89,7 +90,6 @@ function analyzeSalesData(data, options) {
             const cost = product.purchase_price * item.quantity;
             const profit = revenue - cost;
 
-            sellerStat.totalRevenue += revenue;
             sellerStat.totalProfit += profit;
 
             // Учет товаров для топ-10
