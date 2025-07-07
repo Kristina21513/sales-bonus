@@ -22,7 +22,7 @@ function calculateSimpleRevenue(purchase, _product) {
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
         // Рассчитываем общую прибыль продавца
-        if (!seller || typeof seller.totalProfit !== 'number') return 0;
+        if (!seller) return 0;
     
         const profit = seller.profit || seller.totalProfit;
         
